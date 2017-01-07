@@ -70,6 +70,13 @@ local listen = function(opts)
   copas.addserver(
     listener,
     function(sock)
+      if opts.ssl_context then
+        sock = ssl.wrap(sock, opts.ssl_context)
+        sock:settimeout(0)
+        while not socket:dohandshake() do
+          copas.sleep(0.1)
+        end
+      end
       local request = {}
       repeat
         -- no timeout used, so should either return with line or err
