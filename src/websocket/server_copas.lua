@@ -27,7 +27,7 @@ local client = function(sock,protocol)
   end
   
   self.sock_close = function(self)
-    sock:shutdown()
+    --sock:shutdown()
     sock:close()
   end
   
@@ -73,7 +73,7 @@ local listen = function(opts)
       if opts.ssl_context then
         sock = ssl.wrap(sock, opts.ssl_context)
         sock:settimeout(0)
-        while not socket:dohandshake() do
+        while not sock:dohandshake() do
           copas.sleep(0.1)
         end
       end
